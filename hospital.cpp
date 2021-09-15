@@ -68,7 +68,27 @@ void Hospital::enter(Params params)
 
 void Hospital::leave(Params params)
 {
+  std::string patient_id = params.at(0);
+  auto patient_iter = patients_.find(patient_id);
 
+  // Check the patient exist and in the hospital
+  if (patient_iter == patients_.end() or
+      not patient_iter->second->get_in_out__hospital()) {
+    std::cout << CANT_FIND << patient_id << std::endl;
+    return;
+  }
+
+  // Record the patient out of the hospital
+  patient_iter->second->set_in_out_hospital(false);
+
+  // Set the end date of the patient's care periodd
+  for (auto period : care_periods_) {
+    if (period->get_patient_id() == patient_id) {
+      period->setEnd(utils::today);
+    }
+  }
+
+  std::cout << PATIENT_LEFT << std::endl;
 }
 
 void Hospital::assign_staff(Params params)

@@ -27,7 +27,13 @@ public:
 
     // More public methods
 
-private:
+    // set careperiod end
+    void setEnd(const Date &end);
+
+    // Get patient_id (name)
+    std::string get_patient_id() const;
+
+  private:
     Person* patient_;
     Date start_;
     Date end_;

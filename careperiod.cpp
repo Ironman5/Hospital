@@ -14,3 +14,7 @@ CarePeriod::CarePeriod(const Date &start, Person* patient):
 CarePeriod::~CarePeriod()
 {
 }
+
+void CarePeriod::setEnd(const Date &end) { end_ = end; }
+
+std::string CarePeriod::get_patient_id() const { return patient_->get_id(); }
