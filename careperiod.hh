@@ -31,7 +31,10 @@ public:
     void setEnd(const Date &end);
 
     // Get patient_id (name)
-    std::string get_patient_id() const;
+    std::string get_id() const;
+
+    // Assign staff to careperiod
+    void assign_staff_careperiod(Person *person);
 
   private:
     Person* patient_;
@@ -39,6 +42,7 @@ public:
     Date end_;
 
     // More attributes and methods
+    std::vector<Person *> assign_staff_;
 };
 
 #endif // CAREPERIOD_HH

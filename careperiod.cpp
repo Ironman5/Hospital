@@ -17,4 +17,8 @@ CarePeriod::~CarePeriod()
 
 void CarePeriod::setEnd(const Date &end) { end_ = end; }
 
-std::string CarePeriod::get_patient_id() const { return patient_->get_id(); }
+std::string CarePeriod::get_id() const { return patient_->get_id(); }
+
+void CarePeriod::assign_staff_careperiod(Person *person) {
+  assign_staff_.push_back(person);
+}

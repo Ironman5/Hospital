@@ -107,6 +107,9 @@ public:
     // Advances the current date with the given number of days.
     void advance_date(Params params);
 
+    // Get the patient's last care period
+    CarePeriod *get_last_period(Person *) const;
+
   private:
     // Obvious container attributes.
     std::map<std::string, Person *> patients_;

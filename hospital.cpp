@@ -83,7 +83,7 @@ void Hospital::leave(Params params)
 
   // Set the end date of the patient's care periodd
   for (auto period : care_periods_) {
-    if (period->get_patient_id() == patient_id) {
+    if (period->get_id() == patient_id) {
       period->setEnd(utils::today);
     }
   }
@@ -93,7 +93,33 @@ void Hospital::leave(Params params)
 
 void Hospital::assign_staff(Params params)
 {
+  std::string staff_id = params.at(0);
+  std::string patient_id = params.at(1);
 
+  // Check staff exist
+  std::map<std::string, Person *>::const_iterator staff_iter =
+      staff_.find(staff_id);
+  if (staff_iter == staff_.end()) {
+    std::cout << CANT_FIND << staff_id << std::endl;
+    return;
+  }
+
+  // Check the patient's presence in the hospital
+  std::map<std::string, Person *>::const_iterator patient_iter =
+      patients_.find(patient_id);
+  if (patient_iter == patients_.end() or
+      not patient_iter->second->get_in_out__hospital()) {
+    std::cout << CANT_FIND << patient_id << std::endl;
+    return;
+  }
+
+  // Find the patient's last careperiod
+  CarePeriod *last = get_last_period(patient_iter->second);
+
+  // Assign staff to the patient latest careperiod
+  last->assign_staff_careperiod(staff_iter->second);
+
+  std::cout << STAFF_ASSIGNED << patient_id << std::endl;
 }
 
 void Hospital::add_medicine(Params params)
@@ -202,4 +228,14 @@ void Hospital::advance_date(Params params)
     std::cout << "New date is ";
     utils::today.print();
     std::cout << std::endl;
+}
+
+CarePeriod *Hospital::get_last_period(Person *patient) const {
+  for (std::size_t i = care_periods_.size() - 1;; --i) {
+
+    if (care_periods_.at(i)->get_id() == patient->get_id()) {
+      return care_periods_.at(i);
+    }
+  }
+  return nullptr;
 }
