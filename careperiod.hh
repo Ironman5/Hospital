@@ -11,6 +11,7 @@
 
 #include "date.hh"
 #include "person.hh"
+#include <algorithm>
 #include <set>
 #include <string>
 
@@ -42,6 +43,9 @@ public:
 
     // Prints person's care staff.
     void print_assign_staff(const std::string &pre_text) const;
+
+    // Check employee exist in assigned_staff
+    bool is_employee_in_staff(Person *person) const;
 
   private:
     Person* patient_;

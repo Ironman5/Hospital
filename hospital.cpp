@@ -188,7 +188,29 @@ void Hospital::print_patient_info(Params params)
 
 void Hospital::print_care_periods_per_staff(Params params)
 {
+  std::string staff_id = params.at(0);
 
+  // Check employee exist
+  std::map<std::string, Person *>::const_iterator staff_iter =
+      staff_.find(staff_id);
+
+  if (staff_iter == staff_.end()) {
+    std::cout << CANT_FIND << staff_id << std::endl;
+    return;
+  }
+
+  // Print employee's careperiods and patient's
+  bool found = false;
+  for (auto period : care_periods_) {
+    if (period->is_employee_in_staff(staff_iter->second)) {
+      period->print_careperiod("");
+      std::cout << "* Patient: " << period->get_id() << std::endl;
+      found = true;
+    }
+  }
+  if (not found) {
+    std::cout << "None" << std::endl;
+  }
 }
 
 void Hospital::print_all_medicines(Params)

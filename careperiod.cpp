@@ -45,3 +45,11 @@ void CarePeriod::print_assign_staff(const std::string &pre_text) const {
     name->print_id();
   }
 }
+
+bool CarePeriod::is_employee_in_staff(Person *person) const {
+
+  if (assign_staff_.find(person) != assign_staff_.end()) {
+    return true;
+  }
+  return false;
+}
