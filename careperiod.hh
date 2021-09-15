@@ -9,8 +9,9 @@
 #ifndef CAREPERIOD_HH
 #define CAREPERIOD_HH
 
-#include "person.hh"
 #include "date.hh"
+#include "person.hh"
+#include <set>
 #include <string>
 
 class CarePeriod
@@ -36,13 +37,19 @@ public:
     // Assign staff to careperiod
     void assign_staff_careperiod(Person *person);
 
+    // Prints person's care period.
+    void print_careperiod(const std::string &pre_text) const;
+
+    // Prints person's care staff.
+    void print_assign_staff(const std::string &pre_text) const;
+
   private:
     Person* patient_;
     Date start_;
     Date end_;
 
     // More attributes and methods
-    std::vector<Person *> assign_staff_;
+    std::set<Person *> assign_staff_;
 };
 
 #endif // CAREPERIOD_HH

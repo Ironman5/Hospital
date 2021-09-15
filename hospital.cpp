@@ -160,7 +160,30 @@ void Hospital::remove_medicine(Params params)
 
 void Hospital::print_patient_info(Params params)
 {
+  std::string patient_id = params.at(0);
+  std::string pre_care = "* Care period: ";
+  std::string pre_staff = "  - Staff: ";
+  std::string pre_med = "* Medicines: ";
 
+  // Check patient exist
+  std::map<std::string, Person *>::const_iterator patient_iter =
+      patients_.find(patient_id);
+
+  if (patient_iter == patients_.end()) {
+    std::cout << CANT_FIND << patient_id << std::endl;
+    return;
+  }
+
+  // Print the patient's care periods and assigned staff
+  for (std::size_t i = 0; i < care_periods_.size(); ++i) {
+
+    if (care_periods_.at(i)->get_id() == patient_id) {
+      care_periods_.at(i)->print_careperiod(pre_care);
+      care_periods_.at(i)->print_assign_staff(pre_staff);
+    }
+  }
+  // Print the patient's medicines
+  patient_iter->second->print_medicines(pre_med);
 }
 
 void Hospital::print_care_periods_per_staff(Params params)
