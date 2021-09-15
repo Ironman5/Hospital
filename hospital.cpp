@@ -255,7 +255,24 @@ void Hospital::print_all_staff(Params)
 
 void Hospital::print_all_patients(Params)
 {
+  std::string pre_care = "* Care period: ";
+  std::string pre_staff = "  - Staff: ";
+  std::string pre_med = "* Medicines: ";
 
+  if (patients_.empty()) {
+    std::cout << "None" << std::endl;
+    return;
+  }
+
+  // Print information for all patients
+  for (std::map<std::string, Person *>::const_iterator patient_iter =
+           patients_.begin();
+       patient_iter != patients_.end(); ++patient_iter) {
+    // Print patient's name
+    std::cout << patient_iter->first << std::endl;
+    // Print patient's careperiod, assigned staff and medications
+    print_patient_info({patient_iter->first});
+  }
 }
 
 void Hospital::print_current_patients(Params)

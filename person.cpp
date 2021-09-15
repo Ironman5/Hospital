@@ -75,11 +75,9 @@ void Person::print_id() const
 
 void Person::print_medicines(const std::string& pre_text) const
 {
-    if( medicines_.empty() )
-    {
-        std::cout << " None" << std::endl;
-        return;
-    }
+  if (medicines_.empty()) {
+    return;
+  }
     std::cout << std::endl;
     for( std::map<std::string, Prescription>::const_iterator
          iter = medicines_.begin();

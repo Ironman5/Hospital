@@ -37,7 +37,7 @@ void CarePeriod::print_assign_staff(const std::string &pre_text) const {
   std::cout << pre_text;
 
   if (assign_staff_.empty()) {
-    std::cout << "None" << std::endl;
+    std::cout << "None";
     return;
   }
 
