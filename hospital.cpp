@@ -215,7 +215,27 @@ void Hospital::print_care_periods_per_staff(Params params)
 
 void Hospital::print_all_medicines(Params)
 {
+  std::map<std::string, std::set<std::string>> all_medicines;
 
+  // Find all medicines for all patients and save them to all_medicines
+  for (const std::pair<const std::string, Person *> &patient : patients_) {
+    std::vector<std::string> medicines = patient.second->get_medicines();
+    for (const std::string &medicine : medicines) {
+      all_medicines[medicine].insert(patient.first);
+    }
+  }
+
+  if (all_medicines.empty()) {
+    std::cout << "None" << std::endl;
+  }
+
+  // Print the medicines and the people for whom they are prescribed
+  for (const auto &medicine : all_medicines) {
+    std::cout << medicine.first << " prescribed for " << std::endl;
+    for (auto &patient : medicine.second) {
+      std::cout << "* " << patient << std::endl;
+    }
+  }
 }
 
 void Hospital::print_all_staff(Params)
