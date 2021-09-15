@@ -30,8 +30,16 @@ public:
     // Destructor.
     ~Person();
 
-    // Obvious getter methods.
+    // Set the patient in / out of the hospital
+    void set_in_out_hospital(bool state);
+
+    // Get the patient's location
+    bool get_in_out__hospital() const;
+
+    // Get patient's name
     std::string get_id() const;
+
+    // Get the patient's medication
     std::vector<std::string> get_medicines() const;
 
     // Adds a medicine for the person.
@@ -54,6 +62,7 @@ public:
 private:
     std::string id_;     // Can be a name or any other identifier
     Date date_of_birth_; // Not actually needed
+    bool in_hospital;
 
     struct Prescription
     {

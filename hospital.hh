@@ -107,12 +107,13 @@ public:
     // Advances the current date with the given number of days.
     void advance_date(Params params);
 
-private:
+  private:
     // Obvious container attributes.
-    std::map<std::string, Person*> current_patients_;
-    std::map<std::string, Person*> staff_;
+    std::map<std::string, Person *> patients_;
+    std::map<std::string, Person *> staff_;
 
-    // More attributes and methods
+    // person's care period's
+    std::vector<CarePeriod *> care_periods_;
 };
 
 #endif // HOSPITAL_HH

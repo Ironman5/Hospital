@@ -10,11 +10,13 @@ Person::Person(const std::string &id):
     id_(id)
 {
     date_of_birth_ = Date();
+    in_hospital = true;
 }
 
 Person::Person(const std::string& id, const std::string& date_of_birth):
     id_(id), date_of_birth_(date_of_birth)
 {
+  in_hospital = true;
 }
 
 Person::~Person()
@@ -23,10 +25,11 @@ Person::~Person()
     std::cout << "Person " << id_ << " destructed." << std::endl;
 }
 
-std::string Person::get_id() const
-{
-    return id_;
-}
+void Person::set_in_out_hospital(bool state) { in_hospital = state; }
+
+bool Person::get_in_out__hospital() const { return in_hospital; }
+
+std::string Person::get_id() const { return id_; }
 
 std::vector<std::string> Person::get_medicines() const
 {

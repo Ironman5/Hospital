@@ -18,7 +18,16 @@ Hospital::~Hospital()
         delete iter->second;
     }
 
-    // Remember to deallocate patients also
+    // Deallocating patients
+    for (std::map<std::string, Person *>::iterator iter = patients_.begin();
+         iter != patients_.end(); ++iter) {
+      delete iter->second;
+    }
+
+    // Deallocating careperiods
+    for (unsigned int i = 0; i < care_periods_.size(); ++i) {
+      delete care_periods_.at(i);
+    }
 }
 
 void Hospital::recruit(Params params)
@@ -36,7 +45,25 @@ void Hospital::recruit(Params params)
 
 void Hospital::enter(Params params)
 {
+  std::string patient_id = params.at(0);
+  std::map<std::string, Person *>::const_iterator patient_iter =
+      patients_.find(patient_id);
 
+  // Check patient exist in current patients_
+  if (patient_iter != patients_.end() and
+      patient_iter->second->get_in_out__hospital() == true) {
+    std::cout << ALREADY_EXISTS << patient_id << std::endl;
+    return;
+  }
+
+  // Create a new patient and save it to _patients_
+  Person *new_patient = new Person(patient_id);
+  patients_.insert({patient_id, new_patient});
+
+  // Make a new careperiod and save it to care periods_
+  CarePeriod *new_careperiod = new CarePeriod(utils::today, new_patient);
+  care_periods_.push_back(new_careperiod);
+  std::cout << PATIENT_ENTERED << std::endl;
 }
 
 void Hospital::leave(Params params)
@@ -61,12 +88,11 @@ void Hospital::add_medicine(Params params)
         std::cout << NOT_NUMERIC << std::endl;
         return;
     }
-    std::map<std::string, Person*>::const_iterator
-            patient_iter = current_patients_.find(patient);
-    if( patient_iter == current_patients_.end() )
-    {
-        std::cout << CANT_FIND << patient << std::endl;
-        return;
+    std::map<std::string, Person *>::const_iterator patient_iter =
+        patients_.find(patient);
+    if (patient_iter == patients_.end()) {
+      std::cout << CANT_FIND << patient << std::endl;
+      return;
     }
     patient_iter->second->add_medicine(medicine, stoi(strength), stoi(dosage));
     std::cout << MEDICINE_ADDED << patient << std::endl;
@@ -76,12 +102,11 @@ void Hospital::remove_medicine(Params params)
 {
     std::string medicine = params.at(0);
     std::string patient = params.at(1);
-    std::map<std::string, Person*>::const_iterator
-            patient_iter = current_patients_.find(patient);
-    if( patient_iter == current_patients_.end() )
-    {
-        std::cout << CANT_FIND << patient << std::endl;
-        return;
+    std::map<std::string, Person *>::const_iterator patient_iter =
+        patients_.find(patient);
+    if (patient_iter == patients_.end()) {
+      std::cout << CANT_FIND << patient << std::endl;
+      return;
     }
     patient_iter->second->remove_medicine(medicine);
     std::cout << MEDICINE_REMOVED << patient << std::endl;
