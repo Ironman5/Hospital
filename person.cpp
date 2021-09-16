@@ -78,16 +78,12 @@ void Person::print_medicines(const std::string& pre_text) const
   if (medicines_.empty()) {
     return;
   }
-    std::cout << std::endl;
-    for( std::map<std::string, Prescription>::const_iterator
-         iter = medicines_.begin();
-         iter != medicines_.end();
-         ++iter )
-    {
-        std::cout << pre_text
-                  << iter->first << " "
-                  << iter->second.strength_ << " mg x "
-                  << iter->second.dosage_ << std::endl;
+  // std::cout << std::endl;
+  for (std::map<std::string, Prescription>::const_iterator iter =
+           medicines_.begin();
+       iter != medicines_.end(); ++iter) {
+    std::cout << pre_text << iter->first << " " << iter->second.strength_
+              << " mg x " << iter->second.dosage_ << std::endl;
     }
 }
 
